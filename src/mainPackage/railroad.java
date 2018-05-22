@@ -28,11 +28,11 @@ public class railroad {
         }
     }
 
-    private class Node {
-        String label;
+    static class Node {
+        int label;
         List<Node> adjacent;
 
-        Node(String label) {
+        Node(int label) {
             this.label = label;
             this.adjacent = new LinkedList<>();
         }
@@ -40,12 +40,12 @@ public class railroad {
 
     static class Parser {
         static Graph parse(String fileName) {
-            Set<Node> nodeSet = new HashSet<Node>();
+            Map<Integer,Node> nodeMap = new HashMap<Integer,Node>();
             try(Scanner sc = new Scanner(new FileReader(fileName))) {
                 int noNodes;
                 noNodes = Integer.parseInt(sc.nextLine());
                 for (int i = 0; i<noNodes;i++) {
-                    readNode();
+                    nodeMap.put(i,new Node(i));
                 }
 
                 //TODO: parse rest of the stuff

@@ -10,13 +10,12 @@ public class railroad {
 
     public static void main(String[] args) {
         Parser p = new Parser();
-        Parser.parse("namn");
-        Algorithm a = new Algorithm();
-        a.solve();
+
+        Graph g = p.parse("testfiles/rail.txt");
         System.out.println("the right answer");
     }
 
-    public static Graph findPath(Graph graph, Graph.Node start, Graph.Node end) {
+    public static Graph findPath(Graph graph, Node start, Node end) {
 
     }
 
@@ -28,20 +27,21 @@ public class railroad {
         public Graph() {
             this.nodeSet = new HashSet<>();
         }
+    }
 
-        private class Node {
-            String label;
-            Set<Node> adjacent;
+    private class Node {
+        String label;
+        Set<Node> adjacent;
 
-            Node(String label) {
-                this.label = label;
-                this.adjacent = new HashSet<>();
-            }
+        Node(String label) {
+            this.label = label;
+            this.adjacent = new HashSet<>();
         }
     }
 
     static class Parser {
-        static void parse(String fileName) {
+        static Graph parse(String fileName) {
+            Set<Node> nodeSet = new HashSet<Node>();
             try(Scanner sc = new Scanner(new FileReader(fileName))) {
                 int noNodes;
                 noNodes = Integer.parseInt(sc.nextLine());

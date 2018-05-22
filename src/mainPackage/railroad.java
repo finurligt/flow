@@ -26,23 +26,26 @@ public class railroad {
         while(!q.isEmpty()) {
             Node current = q.poll();
 
-            for (Node neighbour : current.adjacent) {
+            for (Tuple tuple : current.adjacent) {
+                Node neighbour = tuple.n;
+
                 if(!visited.contains(neighbour)) {
                     visited.remove(neighbour);
                     q.offer(neighbour);
                     //path.add(neighbour); nog inte right.
                     if(neighbour == graph.nodes.get(end)) {
-                        return path;
+                        System.out.println("We found a fucking path");
+                        return null;
                     }
                 }
             }
         }
-        return new Graph(new HashMap<>());
+        return null;
     }
 
     // note to fred.
     // 852 eller 872 Sveriges ingenjörer.
-    static class Graph {
+    public static class Graph {
         Map<Integer, Node> nodes;
 
         public Graph(Map<Integer,Node> mappen) {
@@ -50,20 +53,20 @@ public class railroad {
         }
     }
 
-    static class Node {
-        int label;
-        List<Tuple> adjacent;
+    public static class Node {
+        public int label;
+        public List<Tuple> adjacent;
 
-        Node(int label) {
+        public Node(int label) {
             this.label = label;
             this.adjacent = new LinkedList<>();
         }
     }
 
-    static class Tuple {
+    public static class Tuple {
         Node n;
         int cost;
-        Tuple(Node n ,int cost) {
+        public Tuple(Node n ,int cost) {
             this.n = n;
             this.cost = cost;
         }

@@ -16,37 +16,26 @@ public class railroad {
         System.out.println("the right answer");
     }
 
-    static class Algorithm {
-        public static void solve() {
-            //TODO
-        }
+    public static Graph findPath(Graph graph, Graph.Node start, Graph.Node end) {
+
     }
 
     // note to fred.
     // 852 eller 872 Sveriges ingenjörer.
     static class Graph {
         Set<Node> nodeSet;
-        Set<Edge> edgeSet;
 
         public Graph() {
             this.nodeSet = new HashSet<>();
-            this.edgeSet = new HashSet<>();
-        }
-
-        private class Edge {
-            Node start;
-            Node end;
-            Edge(Node start, Node end) {
-                this.start = start;
-                this.end = end;
-            }
         }
 
         private class Node {
             String label;
+            Set<Node> adjacent;
 
             Node(String label) {
                 this.label = label;
+                this.adjacent = new HashSet<>();
             }
         }
     }

@@ -46,6 +46,7 @@ public class railroad {
                 noNodes = Integer.parseInt(sc.nextLine());
                 for (int i = 0; i<noNodes;i++) {
                     nodeMap.put(i,new Node(i));
+                    sc.nextLine();
                 }
 
                 //TODO: parse rest of the stuff
@@ -57,8 +58,6 @@ public class railroad {
             }
             return new Graph();
         }
-        static void readNode() {
-            //TODO
-        }
+
     }
 }

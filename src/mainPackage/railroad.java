@@ -30,11 +30,20 @@ public class railroad {
 
     static class Node {
         int label;
-        List<Node> adjacent;
+        List<Tuple> adjacent;
 
         Node(int label) {
             this.label = label;
             this.adjacent = new LinkedList<>();
+        }
+    }
+
+    static class Tuple {
+        Node n;
+        int cost;
+        Tuple(Node n ,int cost) {
+            this.n = n;
+            this.cost = cost;
         }
     }
 
@@ -49,7 +58,13 @@ public class railroad {
                     sc.nextLine();
                 }
 
-                //TODO: parse rest of the stuff
+                int noEdges = Integer.parseInt(sc.nextLine());
+
+                for (int i = 0;i<noEdges;i++) {
+                    String[] split = sc.nextLine().split(" ");
+                    nodeMap.get(Integer.parseInt(split[0])).adjacent.add(
+                            new Tuple(nodeMap.get(Integer.parseInt(split[1])),Integer.parseInt(split[2])));
+                }
 
 
             } catch (FileNotFoundException e) {

@@ -20,6 +20,7 @@ public class railroad {
             throw new Exception("Could not find start or end node in the graph.");
         }
 
+        return new Graph();
     }
 
     // note to fred.
@@ -59,6 +60,7 @@ public class railroad {
                 System.err.println("Could not find input-file), exiting...");
                 System.exit(1);
             }
+            return new Graph();
         }
         static void readNode() {
             //TODO

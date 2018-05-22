@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
 
-public class Main {
+public class railroad {
 
     public static void main(String[] args) {
         Parser p = new Parser();

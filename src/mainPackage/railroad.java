@@ -7,35 +7,66 @@ import java.util.*;
 public class railroad {
 
     public static void main(String[] args) {
-        Parser p = new Parser();
-
-        Graph g = p.parse("testfiles/rail.txt");
+        Graph g = Parser.parse("testfiles/rail.txt");
+        fordFulkerson(g, 1, 0);
         System.out.println("the right answer");
     }
 
-    public static List<Node> findPath(Graph graph, int start, int end) {
-        List<Node> path = new LinkedList<>();
-        path.add(graph.nodes.get(start));
+    public static void fordFulkerson(Graph graph, int s, int t) {
+        List<Node> path;
+        do {
+            path = findPath(graph, s, t);
+            List<Edgelet> edges = edgesInPath(path, graph);
+            int minDelta = edges.stream().mapToInt(Edgelet::delta).sum();
 
-        HashSet<Node> visited = new HashSet<>(graph.nodes.values());
-        visited.remove(graph.nodes.get(start));
+            for (Edgelet e : edges) {
+                e.capacity += minDelta;
+            }
+        } while(!path.isEmpty());
+    }
+
+    public static List<Edgelet> edgesInPath(List<Node> path, Graph g) {
+        List<Edgelet> edgesInPath = new LinkedList<>();
+        ArrayList<Node> arrayPath = new ArrayList<>(path);
+
+        for(int i = 0; i < arrayPath.size()-1; i++) {
+            for( Edgelet t : arrayPath.get(i).adjacent ) {
+                if( t.n == arrayPath.get(i+1) ) {
+                    edgesInPath.add(t);
+                }
+            }
+        }
+        return edgesInPath;
+    }
+
+    public static List<Node> findPath(Graph graph, int start, int end) {
+        LinkedList<Node> path = new LinkedList<>();
+        Map<Node, Node> preceding = new HashMap<>();
+
+        HashSet<Node> visited = new HashSet<>();
+        visited.add(graph.nodes.get(start));
 
         Queue<Node> q = new LinkedList<>();
-        q.addAll(visited);
+        q.addAll(graph.nodes.values());
 
-        while (!q.isEmpty()) {
+        while (q.peek() != null) {
             Node current = q.poll();
 
-            for (Tuple tuple : current.adjacent) {
-                Node neighbour = tuple.n;
+            for (Edgelet edgelet : current.adjacent) {
+                Node neighbour = edgelet.n;
 
-                if (!visited.contains(neighbour)) {
-                    visited.remove(neighbour);
+                if (!visited.contains(neighbour) && edgelet.capacity >= 0) {
+                    visited.add(neighbour);
                     q.offer(neighbour);
-                    //path.add(neighbour); nog inte right.
+                    preceding.put(neighbour, current);
                     if (neighbour == graph.nodes.get(end)) {
-                        System.out.println("We found a fucking path");
-                        return null;
+                        System.err.println("We found a fucking path");
+
+                        while(neighbour != null) {
+                            path.addFirst(neighbour);
+                            neighbour = preceding.get(neighbour);
+                        }
+                        return path;
                     }
                 }
             }
@@ -55,21 +86,38 @@ public class railroad {
 
     public static class Node {
         public int label;
-        public List<Tuple> adjacent;
+        public List<Edgelet> adjacent;
 
         public Node(int label) {
             this.label = label;
             this.adjacent = new LinkedList<>();
         }
+
+        @Override
+        public String toString() {
+            return String.valueOf(label);
+        }
+
     }
 
-    public static class Tuple {
+    public static class Edgelet {
         Node n;
-        int cost;
+        int capacity;
+        int flow;
 
-        public Tuple(Node n, int cost) {
+        public Edgelet(Node n, int capacity) {
             this.n = n;
-            this.cost = cost;
+            this.capacity = capacity;
+            this.flow = 0;
+        }
+
+        public int delta() {
+            return capacity - flow;
+        }
+
+        @Override
+        public String toString() {
+            return "->" + n.toString() + ", " + flow + "/" + capacity;
         }
     }
 
@@ -88,7 +136,7 @@ public class railroad {
 
                 for (int i = 0; i < noEdges; i++) {
                     String[] split = sc.nextLine().split(" ");
-                    nodeMap.get(Integer.parseInt(split[0])).adjacent.add(new Tuple(nodeMap.get(Integer.parseInt(split[1])), Integer.parseInt(split[2]))); //one-liner of doom
+                    nodeMap.get(Integer.parseInt(split[0])).adjacent.add(new Edgelet(nodeMap.get(Integer.parseInt(split[1])), Integer.parseInt(split[2]))); //one-liner of doom
                 }
 
 

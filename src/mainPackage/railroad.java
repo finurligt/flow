@@ -15,16 +15,16 @@ public class railroad {
 
     public static Graph findPath(Graph graph, Node start, Node end) {
 
-        return new Graph();
+        return new Graph(new HashMap<>());
     }
 
     // note to fred.
     // 852 eller 872 Sveriges ingenjörer.
     static class Graph {
-        Map<String, Node> nodes;
+        Map<Integer, Node> nodes;
 
-        public Graph() {
-            this.nodes = new HashMap<>();
+        public Graph(Map<Integer,Node> mappen) {
+            this.nodes = mappen;
         }
     }
 
@@ -56,7 +56,7 @@ public class railroad {
                 System.err.println("Could not find input-file), exiting...");
                 System.exit(1);
             }
-            return new Graph();
+            return new Graph(nodeMap);
         }
 
     }

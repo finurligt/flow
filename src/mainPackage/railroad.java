@@ -15,7 +15,10 @@ public class railroad {
         System.out.println("the right answer");
     }
 
-    public static Graph findPath(Graph graph, Node start, Node end) {
+    public static Graph findPath(Graph graph, Node start, Node end) throws Exception {
+        if(graph.nodeSet.stream().anyMatch(node -> node.label.equals(start) || node.label.equals(end))) {
+            throw new Exception("Could not find start or end node in the graph.");
+        }
 
     }
 

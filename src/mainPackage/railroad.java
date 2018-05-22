@@ -13,8 +13,30 @@ public class railroad {
         System.out.println("the right answer");
     }
 
-    public static Graph findPath(Graph graph, Node start, Node end) {
+    public static List<Node> findPath(Graph graph, int start, int end) {
+        List<Node> path = new LinkedList<>();
+        path.add( graph.nodes.get(start) );
 
+        HashSet<Node> visited = new HashSet<>( graph.nodes.values() );
+        visited.remove( graph.nodes.get(start) );
+
+        Queue<Node> q = new LinkedList<>();
+        q.addAll(visited);
+
+        while(!q.isEmpty()) {
+            Node current = q.poll();
+
+            for (Node neighbour : current.adjacent) {
+                if(!visited.contains(neighbour)) {
+                    visited.remove(neighbour);
+                    q.offer(neighbour);
+                    //path.add(neighbour); nog inte right.
+                    if(neighbour == graph.nodes.get(end)) {
+                        return path;
+                    }
+                }
+            }
+        }
         return new Graph(new HashMap<>());
     }
 

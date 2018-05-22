@@ -2,9 +2,7 @@ package mainPackage;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class railroad {
 
@@ -15,10 +13,7 @@ public class railroad {
         System.out.println("the right answer");
     }
 
-    public static Graph findPath(Graph graph, Node start, Node end) throws Exception {
-        if(graph.nodeSet.stream().anyMatch(node -> node.label.equals(start) || node.label.equals(end))) {
-            throw new Exception("Could not find start or end node in the graph.");
-        }
+    public static Graph findPath(Graph graph, Node start, Node end) {
 
         return new Graph();
     }
@@ -26,20 +21,20 @@ public class railroad {
     // note to fred.
     // 852 eller 872 Sveriges ingenjörer.
     static class Graph {
-        Set<Node> nodeSet;
+        Map<String, Node> nodes;
 
         public Graph() {
-            this.nodeSet = new HashSet<>();
+            this.nodes = new HashMap<>();
         }
     }
 
     private class Node {
         String label;
-        Set<Node> adjacent;
+        List<Node> adjacent;
 
         Node(String label) {
             this.label = label;
-            this.adjacent = new HashSet<>();
+            this.adjacent = new LinkedList<>();
         }
     }
 

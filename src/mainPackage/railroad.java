@@ -6,7 +6,7 @@ import java.util.*;
 
 public class railroad {
 
-    final static boolean DEBUG_PRINT = true;
+    final static boolean DEBUG_PRINT = false;
 
     public static void main(String[] args) {
         Graph g = Parser.parse(args[0]);
@@ -150,7 +150,7 @@ public class railroad {
 
     static class Parser {
         static Graph parse(String fileName) {
-            Map<Integer, Node> nodeMap = new HashMap<Integer, Node>();
+            Map<Integer, Node> nodeMap = new HashMap<>();
             try (Scanner sc = new Scanner(new FileReader(fileName))) {
                 int noNodes;
                 noNodes = Integer.parseInt(sc.nextLine());
@@ -164,6 +164,9 @@ public class railroad {
                 for (int i = 0; i < noEdges; i++) {
                     String[] split = sc.nextLine().split(" ");
                     nodeMap.get(Integer.parseInt(split[0])).adjacent.add(new Edgelet(nodeMap.get(Integer.parseInt(split[1])), Integer.parseInt(split[2]))); //one-liner of doom
+
+                    // since "Arcs are undirected", add a backward arc.
+                    nodeMap.get(Integer.parseInt(split[1])).adjacent.add(new Edgelet(nodeMap.get(Integer.parseInt(split[0])), Integer.parseInt(split[2]))); //one-liner of doom
                 }
 
 

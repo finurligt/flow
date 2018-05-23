@@ -15,6 +15,24 @@ public class railroad {
         System.out.println(fordFulkerson(g, 0, 54));
     }
 
+
+
+    static List<Edge> findCut(Graph g, int startNode) {
+        List<Edge> edgeList = new LinkedList<>();
+        return recursiveFindCut(g.nodes.get(0),edgeList);
+    }
+
+    private static List<Edge> recursiveFindCut(Node node, List<Edge> edgeList) {
+        for (Edgelet e: node.adjacent) {
+            if (e.delta() == 0) {                            //delta??!?
+                edgeList.add(new Edge(node, e.n));
+            } else {
+                recursiveFindCut(e.n,edgeList);
+            }
+        }
+        return edgeList;
+    }
+
     public static int fordFulkerson(Graph graph, int s, int t) {
         List<Node> path;
         do {
@@ -102,6 +120,14 @@ public class railroad {
 
         public Graph(Map<Integer, Node> mappen) {
             this.nodes = mappen;
+        }
+    }
+
+    public static class Edge {
+        public Node startNode, endNode;
+        public Edge(Node start, Node end) {
+            startNode = start;
+            endNode = end;
         }
     }
 

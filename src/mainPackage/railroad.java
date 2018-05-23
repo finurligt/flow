@@ -8,6 +8,7 @@ public class railroad {
 
     public static void main(String[] args) {
         Graph g = Parser.parse("testfiles/rail.txt");
+        System.out.println(g.nodes.size());
         fordFulkerson(g, 1, 0);
         System.out.println("the right answer");
     }
@@ -16,6 +17,7 @@ public class railroad {
         List<Node> path;
         do {
             path = findPath(graph, s, t);
+            System.out.println(path);
             List<Edgelet> edges = edgesInPath(path, graph);
             int minDelta = edges.stream().mapToInt(Edgelet::delta).sum();
 
@@ -84,11 +86,13 @@ public class railroad {
         }
     }
 
+
     public static class Node {
         public int label;
         public List<Edgelet> adjacent;
 
         public Node(int label) {
+
             this.label = label;
             this.adjacent = new LinkedList<>();
         }
@@ -144,6 +148,7 @@ public class railroad {
                 System.err.println("Could not find input-file, exiting...");
                 System.exit(1);
             }
+
             return new Graph(nodeMap);
         }
 

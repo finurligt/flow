@@ -41,7 +41,7 @@ public class railroadTest {
 
     @Test
     void shouldBeCorrectEdge() {
-        List<Edgelet> edges = edgesInPath(findPath(g, 1, 3), g);
+        List<Edgelet> edges = edgesInPath(findPath(g, 1, 3));
         edges.forEach(System.err::println);
     }
 }

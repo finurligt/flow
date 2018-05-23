@@ -141,7 +141,7 @@ public class railroad {
 
 
             } catch (FileNotFoundException e) {
-                System.err.println("Could not find input-file), exiting...");
+                System.err.println("Could not find input-file, exiting...");
                 System.exit(1);
             }
             return new Graph(nodeMap);
